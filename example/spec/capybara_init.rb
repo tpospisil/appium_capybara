@@ -6,7 +6,20 @@ require 'site_prism'
 
 caps = Appium.load_appium_txt file: File.expand_path('./', 'appium.txt'), verbose: true
 
-url = 'http://localhost:4723/wd/hub'.freeze
+# CrossBrowserTesting App credentials
+cbt_username = '' # YOUR CBT EMAIL HERE
+cbt_authkey = '' # YOUR CBT AUTHKEY HERE
+
+caps["cbt:options"] = {
+  "name" => "Basic Test Example",
+  "build" => "1.0",
+  "deviceName" => "Pixel 4A",
+  "platformVersion" => "11.0",
+  "deviceOrientation" => "portrait",
+  "record_video" => "true"
+}
+
+url = "http://#{cbt_username.sub('@', '%40')}:#{cbt_authkey}@hub.crossbrowsertesting.com/wd/hub"
 
 Capybara.register_driver(:appium) do |app|
   all_options = caps.merge(appium_lib: { server_url: url }, global_driver: false)
